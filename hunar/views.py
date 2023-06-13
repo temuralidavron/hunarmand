@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views import generic
 from django.views.generic import TemplateView, DetailView, CreateView
 from rest_framework import generics, status
 from rest_framework.decorators import permission_classes, api_view
@@ -199,142 +200,233 @@ class AnketaGetPostView(TemplateView):
 #
 #         return self.render_to_response(context)
 
+def createMark(request):
+    form =Markanketaform
+    if request.method == 'POST':
+        form=Anketaform(request.POST)
+        if form.is_valid():
+            form.is_valid()
+            return redirect('/')
 
 
 
-# class Anketaview(TemplateView):
-#     queryset = Anketa.objects.all()
-#     template_name = "anketa.html"
-#     def get_anketa(self,request):
-#         anketa = Anketa.objects.all()
-#         return render(request,"anketa.html",{'anketa':anketa})
+    context = {'form':form}
+    return render(request,'kengash.hmtl', context)
 
-
-#
 
 
 
 class MarkanketaView(TemplateView):
     template_name = 'kengash.html'
+    permission_classes = []
     def post(self, request, *args, **kwargs):
         data = request.POST
         form = Markanketaform
         markanketapost = MarkAnketa.objects.create(
             like=data['like'],
             dislike=data['dislike'],
+            anketa_id=data['id'],
+            user=request.user
         )
+
         return render(markanketapost,'kengash.html', {'form':form})
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        if self.request.user.is_anonymous:
+        if self.request.user:
             return data
         reactions = MarkAnketa.objects.filter(anketa=self.get_object())
         data['reaction_value'] = reactions.filter(user=self.request.user).first()
         data['likes_count'] = reactions.filter(value=1).count()
+
         return data
 
 
-class AnketaView(CreateView):
+class AnketaView(generic.CreateView):
+    template_name = 'anketa.html'
+    form_class = Anketaform
     queryset = Anketa.objects.all()
-    def get(self, request, *args, **kwargs):
-        form = Anketaform
-        context = {
-            'form':form
-        }
-        return render(request, 'anketa.html', context)
+    success_url = reverse_lazy("anketapostview")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = Anketaform
+        return context
 
     def post(self, request, *args, **kwargs):
-        # form = Anketaform(request.POST)
-        # if form.is_valid():
-        #     print('sdsdsdsdsdsd')
-        #     form.save()
-        print("dfdfdf")
+        form = Anketaform(request.POST)
+        file = request.FILES
+        print(file)
+        anketa = Anketa.objects.create(
+            photo=file['photo'],
+            name=form.data['name'],
+            fname=form.data['fname'],
+            lname=form.data['lname'],
+            koyadress=form.data['koyadress'],
+            state=form.data['state'],
+            password=form.data['password'],
+            passwordpnfl=form.data['passwordpnfl'],
+            malumot=form.data['malumot'],
+            adress=['adress'],
+            workadress=form.data['workadress'],
+            number=form.data['number'],
+            email=form.data['email'],
+            web_chart=form.data['web_chart'],
+            studentcount=form.data['studentcount'],
+            job=form.data['job'],
+            grift=form.data['grift'],
+            memberyear=form.data['memberyear'],
+            award=form.data['award'],
+            festival=form.data['festival'],
+            nationalfest=form.data['nationalfest'],
+            owngalery=form.data['owngalery'],
+            teacherabout=form.data['teacherabout'],
+            orginalwork=form.data['orginalwork'],
+            modepraduct=form.data['modepraduct'],
+            addinform=form.data['addinform'],
+            photos=file['photos'],
+        )
+        return render(request, 'list.html',{'form':form})
 
-        if request.method == "POST":
-            print(request.POST)
-            name = request.POST['uz_listing_firstname_name_field'],
-            print('name',name)
-            fname = request.POST['uz_listing_lastname_text_field'],
-            print('fname', fname)
-            lname = request.POST['uz_listing_otch_text_field'],
-            print('lname',lname)
-            koyadress = request.POST['uz_listing_tgmanzil_field'],
-            print('koyadrres',koyadress)
-            state = request.POST['uz_listing_fuqoroligi'],
-            print('state',state)
-            password = request.POST['uz_listing_passport_field'][0],
-            print('password', password)
-            passwordpnfl = request.POST['uz_listing_passport_field'][1],
-            print('passwordpnfl', passwordpnfl)
-            malumot = request.POST['uz_listing_malumoti_field'],
-            print('malumot',malumot)
-            adress = request.POST['uz_listing_yshmanzil_field'],
-            print('adress', adress)
-            workadress = request.POST['uz_listing_flmanzil_field'],
-            print('workadress',workadress)
-            number = request.POST['uz_listing_phone_field'],
-            print('number',number)
-            email =request.POST['uz_listing_mail_field'],
-            print('email', email)
-            web_chart = request.POST['uz_listing_site_field'],
-            print('web_chart', web_chart)
-            studentcount = request.POST['uz_listing_shogirdlar_field'],
-            print('studentcount', studentcount)
-            job = request.POST['typetaxonomy'],
-            print('job', job)
-            grift = request.POST['type_unvoni_field'],
-            print('grift', grift)
-            memberyear = request.POST['uz_listing_azo_field'],
-            print('memberyear', memberyear)
-            award = request.POST['uz_listing_mukofot_field'],
-            print('award', award)
-            festival = request.POST['uz_listing_korgazma_field'],
-            print('festival',festival)
-            nationalfest = request.POST['uz_listing_hkorgazma_field'],
-            print('nationalfest', nationalfest)
-            owngalery = request.POST['uz_listing_shkorgazma_field'],
-            print('owngalery', owngalery)
-            teacherabout= request.POST['uz_listing_sulola_field'],
-            print('teacherabout', teacherabout)
-            orginalwork= request.POST['uz_listing_ijod_field'],
-            print('orginalwork', orginalwork)
-            modepraduct =request.POST['uz_listing_ishmahsulot_field'],
-            print('modepraduct', modepraduct)
-            addinform = request.POST['uz_listing_qoshimcha_malumotlar_field'],
-            print('addinform', addinform)
-            photos = request.POST['my_file_upload_nonce'],
-            print('photos', photos)
-            anketa = Anketa.objects.create(
-                name=name,
-                fname=fname,
-                lname=lname,
-                koyadress=koyadress,
-                state=state,
-                password=password,
-                passwordpnfl=passwordpnfl,
-                malumot=malumot,
-                adress=adress,
-                workadress=workadress,
-                number=number,
-                email=email,
-                web_chart=web_chart,
-                studentcount=studentcount,
-                job=job,
-                grift=grift,
-                memberyear=memberyear,
-                award=award,
-                festival=festival,
-                nationalfest=nationalfest,
-                owngalery=owngalery,
-                teacherabout=teacherabout,
-                orginalwork=orginalwork,
-                modepraduct=modepraduct,
-                addinform=addinform,
-                photos=photos,
-            )
-            anketa.save()  # save to database
-        return redirect("anketapostview")
+
+
+
+def like_detail(request):
+    markanketa = MarkAnketa.objects.get(like=like)
+    permission_classes = [is_Authenticated]
+    msg = False
+
+
+
+
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            user = request.user
+
+            if markanketa.like.filter(id=user.id).exist():
+                markanketa.like.remove(user)
+                msg = False
+            else:
+                markanketa.like.add(user)
+                msg = True
+    return render(request, 'kengash.html', {'msg':msg })
+
+#{{ markanketa.like.count}}
+
+
+def like(request,anketa_id):
+    user = request.user
+    anketa = Anketa.objects.get(id=anketa_id)
+    current_like = anketa.like
+    liked = MarkAnketa.objects.filter(user=request.user, anketa=anketa).count()
+    if not liked:
+        liked = MarkAnketa.objects.create(user=user, anketa=anketa)
+        current_like = current_like+ 1
+
+
+    # def form_valid(self, form):
+    #     print(form)
+    #     form.save(commit=False)
+    #     return form
+
+    # def get(self, request, *args, **kwargs):
+    #     form = Anketaform
+    #     context = {
+    #         'form':form
+    #     }
+    #     return render(request, 'anketa.html', context)
+    #
+    # def post(self, request, *args, **kwargs):
+    #     # form = Anketaform(request.POST)
+    #     # if form.is_valid():
+    #     #     print('sdsdsdsdsdsd')
+    #     #     form.save()
+    #     print("dfdfdf")
+    #
+    #     if request.method == "POST":
+    #
+    #         name = request.POST['uz_listing_firstname_name_field'],
+    #         print('name',name)
+    #         fname = request.POST['uz_listing_lastname_text_field'],
+    #         print('fname', fname)
+    #         lname = request.POST['uz_listing_otch_text_field'],
+    #         print('lname',lname)
+    #         koyadress = request.POST['uz_listing_tgmanzil_field'],
+    #         print('koyadrres',koyadress)
+    #         state = request.POST['uz_listing_fuqoroligi'],
+    #         print('state',state)
+    #         password = request.POST['uz_listing_passport_field'][0],
+    #         print('password', password)
+    #         passwordpnfl = request.POST['uz_listing_passport_field'][1],
+    #         print('passwordpnfl', passwordpnfl)
+    #         malumot = request.POST['uz_listing_malumoti_field'],
+    #         print('malumot',malumot)
+    #         adress = request.POST['uz_listing_yshmanzil_field'],
+    #         print('adress', adress)
+    #         workadress = request.POST['uz_listing_flmanzil_field'],
+    #         print('workadress',workadress)
+    #         number = request.POST['uz_listing_phone_field'],
+    #         print('number',number)
+    #         email =request.POST['uz_listing_mail_field'],
+    #         print('email', email)
+    #         web_chart = request.POST['uz_listing_site_field'],
+    #         print('web_chart', web_chart)
+    #         studentcount = request.POST['uz_listing_shogirdlar_field'],
+    #         print('studentcount', studentcount)
+    #         job = request.POST['typetaxonomy'],
+    #         print('job', job)
+    #         grift = request.POST['type_unvoni_field'],
+    #         print('grift', grift)
+    #         memberyear = request.POST['uz_listing_azo_field'],
+    #         print('memberyear', memberyear)
+    #         award = request.POST['uz_listing_mukofot_field'],
+    #         print('award', award)
+    #         festival = request.POST['uz_listing_korgazma_field'],
+    #         print('festival',festival)
+    #         nationalfest = request.POST['uz_listing_hkorgazma_field'],
+    #         print('nationalfest', nationalfest)
+    #         owngalery = request.POST['uz_listing_shkorgazma_field'],
+    #         print('owngalery', owngalery)
+    #         teacherabout= request.POST['uz_listing_sulola_field'],
+    #         print('teacherabout', teacherabout)
+    #         orginalwork= request.POST['uz_listing_ijod_field'],
+    #         print('orginalwork', orginalwork)
+    #         modepraduct =request.POST['uz_listing_ishmahsulot_field'],
+    #         print('modepraduct', modepraduct)
+    #         addinform = request.POST['uz_listing_qoshimcha_malumotlar_field'],
+    #         print('addinform', addinform)
+    #         photos = request.POST['my_file_upload_nonce'],
+    #         print('photos', photos)
+    #         anketa = Anketa.objects.create(
+    #             name=name,
+    #             fname=fname,
+    #             lname=lname,
+    #             koyadress=koyadress,
+    #             state=state,
+    #             password=password,
+    #             passwordpnfl=passwordpnfl,
+    #             malumot=malumot,
+    #             adress=adress,
+    #             workadress=workadress,
+    #             number=number,
+    #             email=email,
+    #             web_chart=web_chart,
+    #             studentcount=studentcount,
+    #             job=job,
+    #             grift=grift,
+    #             memberyear=memberyear,
+    #             award=award,
+    #             festival=festival,
+    #             nationalfest=nationalfest,
+    #             owngalery=owngalery,
+    #             teacherabout=teacherabout,
+    #             orginalwork=orginalwork,
+    #             modepraduct=modepraduct,
+    #             addinform=addinform,
+    #             photos=photos,
+    #         )
+    #         anketa.save()  # save to database
+    #     return redirect("anketapostview")
 
 
 

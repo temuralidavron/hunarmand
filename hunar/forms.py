@@ -17,7 +17,7 @@ class Anketaform(forms.ModelForm):
 
     class Meta:
         model = Anketa
-        fields = '__all__'
+        exclude = ('fname',)
 
 
 

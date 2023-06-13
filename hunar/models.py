@@ -18,63 +18,63 @@ from django.utils.text import slugify
 class Anketa(models.Model):
     STATE =(
 
-        ("107", "Avg'oniston"),
-        ("105", "ERON"),
-        ("87", "O'ZBEKISTON"),
-        ("106", "OZARBAYJON"),
-        ("89", "QIRG'IZISTON"),
-        ("103","QOZOG'ISTON"),
-        ("101","ROSSIYA"),
-        ("88","TOJIKISTON"),
-        ("104","TURKIYA"),
-        ("102","TURKMANISTON"),
+        ("Avg'oniston", "Avg'oniston"),
+        ("Eron", "ERON"),
+        ("O'zbekiston", "O'ZBEKISTON"),
+        ("Ozarbayjon", "OZARBAYJON"),
+        ("Qirg'iziston", "QIRG'IZISTON"),
+        ("Qozaeg'iston","QOZOG'ISTON"),
+        ("Rossiya","ROSSIYA"),
+        ("Tojikiston","TOJIKISTON"),
+        ("Turkiya","TURKIYA"),
+        ("Turkmaniston","TURKMANISTON"),
 
     )
     JOB = (
 
-        ("118", "bosh kiyimlar tayyorlash"),
-        ("129", "charm mahsulotlari"),
-        ("125", "chinni, fayans va sopol buyumlari"),
-        ("139", "emallash ishlari"),
-        ("140", "esdalik buyumlari"),
-        ("108", "ganch o'ymakorligi"),
-        ("121","gul bosilgan gazlamalar va chokli buyumlar"),
-        ("137", "hajmli va shaklli qoliplarda quyilgan buyumlar"),
-        ("113", "kandakorlik, misgarlik buyumlari"),
-        ("122", "kashtachilik"),
-        ("135", "ko'zgu tayyorlash"),
-        ("128", "mayda haykaltaroshlik buyumlari"),
-        ("114", "metalldan yasalgan buyumlar"),
-        ("117", "milliy liboslar tayyorlash"),
-        ("116", "milliy poyabzal tayyorlash"),
-        ("112", "miniatyura, rang tasvir, naqqoshlik va bo'yoqli naqshlar"),
-        ("134", "mozaika ishlari"),
-        ("130", "mualliflik mebellarini tayyorlash"),
-        ("124", "musiqa asboblari"),
-        ("133", "novdalardan buyumlar to'qish"),
-        ("127", "o'yinchoqlar"),
-        ("141r", "oddiy metalldan milliy uslubda tayyorlangan taqinchoqlar"),
-        ("132","pechka va kaminlar yasash"),
-        ("126", "qimmatbaho metalldan yasalgan zargarlik buyumlari"),
-        ("110", "qo'lda gazlamalar to'qish"),
-        ("109","qo'lda gilam to'qish"),
-        ("136", "shisha puflash ishlari"),
-        ("138", "soatsozlik"),
-        ("120", "suyakka o'yma naqsh solish"),
-        ("111", "tosh o'ymakorligi"),
-        ("115   ", "tunukadan yasalgan buyumlar"),
-        ("119", "yog'och o'ymakorligi"),
-        ( "131", "yog'ochdan tayyorlangan xalq hunarmandchiligi mahsulotlari",),
-        ( "123", "zardo'zlik buyumlari"),
+        ("Bosh kiyimlar tayyorlash", "bosh_kiyimlar_tayyorlash"),
+        ("Charm mahsulotlari", "charm mahsulotlari"),
+        ("Chinni, fayans va sopol buyumlari", "chinni, fayans va sopol buyumlari"),
+        ("Emallash ishlari", "emallash ishlari"),
+        ("Esdalik buyumlari", "esdalik buyumlari"),
+        ("Ganch o'ymakorligi", "ganch o'ymakorligi"),
+        ("Gul bosilgan gazlamalar va chokli buyumlar","gul bosilgan gazlamalar va chokli buyumlar"),
+        ("Hajmli va shaklli qoliplarda quyilgan buyumla", "hajmli va shaklli qoliplarda quyilgan buyumlar"),
+        ("Kandakorlik, misgarlik buyumlari", "kandakorlik, misgarlik buyumlari"),
+        ("Kashtachilik", "kashtachilik"),
+        ("Ko'zgu tayyorlash", "ko'zgu tayyorlash"),
+        ("Mayda haykaltaroshlik buyumlari", "mayda haykaltaroshlik buyumlari"),
+        ("Metalldan yasalgan buyumlar", "metalldan yasalgan buyumlar"),
+        ("Milliy liboslar tayyorlash", "milliy liboslar tayyorlash"),
+        ("Milliy poyabzal tayyorlash", "milliy poyabzal tayyorlash"),
+        ("Miniatyura, rang tasvir, naqqoshlik va bo'yoqli naqshlar", "miniatyura, rang tasvir, naqqoshlik va bo'yoqli naqshlar"),
+        ("Mozaika ishlari", "mozaika ishlari"),
+        ("Mualliflik mebellarini tayyorlash", "mualliflik mebellarini tayyorlash"),
+        ("Musiqa asboblari", "musiqa asboblari"),
+        ("Novdalardan buyumlar to'qish", "novdalardan buyumlar to'qish"),
+        ("O'yinchoqla", "o'yinchoqlar"),
+        ("Oddiy metalldan milliy uslubda tayyorlangan taqinchoqlar", "oddiy metalldan milliy uslubda tayyorlangan taqinchoqlar"),
+        ("Pechka va kaminlar yasash","pechka va kaminlar yasash"),
+        ("Qimmatbaho metalldan yasalgan zargarlik buyumlari", "qimmatbaho metalldan yasalgan zargarlik buyumlari"),
+        ("Qo'lda gazlamalar to'qish", "qo'lda gazlamalar to'qish"),
+        ("Qo'lda gilam to'qish","qo'lda gilam to'qish"),
+        ("Shisha puflash ishlari", "shisha puflash ishlari"),
+        ("Soatsozlik", "soatsozlik"),
+        ("Suyakka o'yma naqsh solish", "suyakka o'yma naqsh solish"),
+        ("Tosh o'ymakorligi", "tosh o'ymakorligi"),
+        ("Tunukadan yasalgan buyumlar", "tunukadan yasalgan buyumlar"),
+        ("Yog'och o'ymakorligi", "yog'och o'ymakorligi"),
+        ( "Yog'ochdan tayyorlangan xalq hunarmandchiligi mahsulotlari", "yog'ochdan tayyorlangan xalq hunarmandchiligi mahsulotlari",),
+        ( "Zardo'zlik buyumlari", "zardo'zlik buyumlari"),
 
     )
-    photo = models.ImageField()
+    photo = models.ImageField(upload_to='image/')
     name = models.CharField(max_length=50)
     GRIFT = (
 
-        ( "100", "Tavsiyanoma"),
-        ( "98", "Xalq ustasi"),
-        ( "99", "Xalqaro ko'rgazma, ko'rik tanlov, festival g'olibi yoki lauriyati"),
+        ( "Tavsiyanoma", "tavsiyanoma"),
+        ( "Xalq ustasi", "Xalq ustasi"),
+        ( "Xalqaro ko'rgazma, ko'rik tanlov, festival g'olibi yoki lauriyati", "Xalqaro ko'rgazma, ko'rik tanlov, festival g'olibi yoki lauriyati"),
     )
 
     fname = models.CharField(max_length=50)
@@ -101,7 +101,7 @@ class Anketa(models.Model):
     orginalwork = models.CharField(max_length=155)
     modepraduct = models.CharField(max_length=155)
     addinform = models.CharField(max_length=155)
-    photos = models.ImageField()
+    photos = models.FileField(blank=True, null=True)
     # slug = models.SlugField()
     #
     # def save(self, *args, **kwargs):
@@ -131,8 +131,8 @@ class User(AbstractUser):
 
 
 class   MarkAnketa(models.Model):
-    like = models.BooleanField(default=False)
-    dislike =models.BooleanField(default=False)
+    like = models.BooleanField(User,default=False, related_name='liked')
+    dislike =models.BooleanField(User, default=False, related_name ='disliked')
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     anketa = models.ForeignKey(Anketa,on_delete=models.CASCADE)
 
