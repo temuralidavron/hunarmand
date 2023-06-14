@@ -130,16 +130,17 @@ class User(AbstractUser):
 
 
 
-class   MarkAnketa(models.Model):
-    like = models.BooleanField(User,default=False, related_name='liked')
-    dislike =models.BooleanField(User, default=False, related_name ='disliked')
+class MarkAnketa(models.Model):
+    like = models.BooleanField(default=False, )
+    dislike = models.BooleanField(default=False,)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     anketa = models.ForeignKey(Anketa,on_delete=models.CASCADE)
 
+    def number_of_like(self):
+        return self.like.count()
 
-
-    def get_absolute_url(self):
-        return reverse('kengash.html', args=[str(self.id)])
+    # def get_absolute_url(self):
+    #     return reverse('kengash.html', args=[str(self.id)])
 
 
 

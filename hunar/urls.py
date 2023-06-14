@@ -1,4 +1,4 @@
-from .views import MarkanketaView, AnketaView, AnketaGetPostView, AnketaPostView, AnketaGetingView, AnketaViewGet
+from .views import MarkanketaView, AnketaView, AnketaGetPostView, AnketaPostView, AnketaGetingView, AnketaViewGet, sample
 from django.urls import path
 
 
@@ -15,6 +15,9 @@ urlpatterns = [
     path("anketagetingview/",  AnketaGetingView.as_view(), name = 'anketaviewd'),
     path("anketaviewget/",  AnketaViewGet.as_view(), name = 'anketaviews'),
     # path("likeclass/<int:id>",  LikeClass.as_view()),
+
+
+    path("sample/",  sample),
 
 ]
 
