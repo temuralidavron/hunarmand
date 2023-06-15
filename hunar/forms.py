@@ -3,8 +3,6 @@ from .models import Anketa, MarkAnketa, User
 
 
 class Markanketaform(forms.ModelForm):
-
-
     class Meta:
         model = MarkAnketa
 
@@ -13,11 +11,9 @@ class Markanketaform(forms.ModelForm):
 
 
 class Anketaform(forms.ModelForm):
-
-
     class Meta:
         model = Anketa
-        exclude = ('fname',)
+        exclude = ('first_name',)
 
 
 

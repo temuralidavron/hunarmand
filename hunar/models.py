@@ -5,6 +5,12 @@ from django.utils.text import slugify
 
 
 
+class User(AbstractUser):
+    nickname=models.CharField(max_length=50,blank=True,null=True)
+
+
+    class Meta(AbstractUser.Meta):
+        swappable = 'AUTH_USER_MODEL'
 
 
 
@@ -17,10 +23,9 @@ from django.utils.text import slugify
 
 class Anketa(models.Model):
     STATE =(
-
+        ("O'zbekiston", "O'ZBEKISTON"),
         ("Avg'oniston", "Avg'oniston"),
         ("Eron", "ERON"),
-        ("O'zbekiston", "O'ZBEKISTON"),
         ("Ozarbayjon", "OZARBAYJON"),
         ("Qirg'iziston", "QIRG'IZISTON"),
         ("Qozaeg'iston","QOZOG'ISTON"),
@@ -68,8 +73,8 @@ class Anketa(models.Model):
         ( "Zardo'zlik buyumlari", "zardo'zlik buyumlari"),
 
     )
-    photo = models.ImageField(upload_to='image/')
-    name = models.CharField(max_length=50)
+    photo = models.ImageField(upload_to='image/', blank=True, null=True)
+    first_name = models.CharField(max_length=300,blank=True,null=True)  # ozgargan
     GRIFT = (
 
         ( "Tavsiyanoma", "tavsiyanoma"),
@@ -77,55 +82,51 @@ class Anketa(models.Model):
         ( "Xalqaro ko'rgazma, ko'rik tanlov, festival g'olibi yoki lauriyati", "Xalqaro ko'rgazma, ko'rik tanlov, festival g'olibi yoki lauriyati"),
     )
 
-    fname = models.CharField(max_length=50)
-    lname = models.CharField(max_length=50)
-    koyadress = models.CharField(max_length=50)
+    mid_name = models.CharField(max_length=300,blank=True,null=True)  # ozgargan
+    sur_name = models.CharField(max_length=300,blank=True,null=True) # ozgargan
+    ctzn = models.CharField(max_length=300,blank=True,null=True)
+    birth_place = models.CharField(max_length=300,blank=True,null=True)  # tugilgan joyi
     state = models.CharField(max_length=50, choices=STATE, blank=True,null=True)
-    password = models.CharField(max_length=9)
-    passwordpnfl = models.CharField(max_length=14)
-    malumot = models.CharField(max_length=30)
-    adress =models.CharField(max_length=50)
-    workadress = models.CharField(max_length=50)
-    number = models.CharField(max_length=12)
+    pport_no = models.CharField(max_length=9)
+    tin = models.CharField(max_length=9,blank=True,null=True)  #qo'shilgan STIR
+    pin = models.CharField(max_length=14,blank=True,null=True)
+    malumot = models.CharField(max_length=100,blank=True,null=True)
+    per_id =models.CharField(max_length=300,blank=True,null=True)
+    workadress = models.CharField(max_length=250,blank=True,null=True)
+    mob_phone_no = models.CharField(max_length=14,blank=True,null=True)
     email = models.EmailField()
-    web_chart = models.CharField(max_length=30, blank=True,null=True)
-    studentcount = models.CharField(max_length=30)
-    job = models.CharField(max_length=150, choices=JOB,blank=True,null=True)
-    grift = models.CharField(max_length=155,choices=GRIFT,blank=True,null=True)
-    memberyear = models.CharField(max_length=50)
-    award = models.CharField(max_length=155)
-    festival = models.CharField(max_length=155)
-    nationalfest = models.CharField(max_length=155)
-    owngalery = models.CharField(max_length=155)
-    teacherabout = models.CharField(max_length=155)
-    orginalwork = models.CharField(max_length=155)
-    modepraduct = models.CharField(max_length=155)
-    addinform = models.CharField(max_length=155)
+    web_chart = models.CharField(max_length=300, blank=True,null=True)
+    studentcount = models.CharField(max_length=250,blank=True,null=True)
+    job = models.CharField(max_length=300, choices=JOB,blank=True,null=True)
+    grift = models.CharField(max_length=300,choices=GRIFT,blank=True,null=True)
+    memberyear = models.CharField(max_length=250,blank=True,null=True)
+    award = models.CharField(max_length=255,blank=True,null=True)
+    festival = models.CharField(max_length=400,blank=True,null=True)
+    nationalfest = models.CharField(max_length=555,blank=True,null=True)
+    owngalery = models.CharField(max_length=400,blank=True,null=True)
+    teacherabout = models.CharField(max_length=500,blank=True,null=True)
+    orginalwork = models.CharField(max_length=300,blank=True,null=True)
+    modepraduct = models.CharField(max_length=255,blank=True,null=True)
+    addinform = models.CharField(max_length=400,blank=True,null=True)
     photos = models.FileField(blank=True, null=True)
-    # slug = models.SlugField()
-    #
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.title)
-    #     super(GeeksModel, self).save(*args, **kwargs)
-
-
-
-    # def __str__(self):
-    #     self.name
-
-
+    LIKE = (
+        ('none', 'none'),
+        ('like', 'like'),
+        ('dislike', 'dislike')
+    )
+    like = models.CharField(max_length=123, choices=LIKE, default='none')
+    likes = models.ManyToManyField(User, blank=True, null=True, related_name='like_user')
+    dislike = models.ManyToManyField(User, blank=True, null=True, related_name='dislike_user')
 
 
 
 
 
 
-class User(AbstractUser):
-    nickname=models.CharField(max_length=50,blank=True,null=True)
 
 
-    class Meta(AbstractUser.Meta):
-        swappable = 'AUTH_USER_MODEL'
+
+
 
 
 

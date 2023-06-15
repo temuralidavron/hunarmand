@@ -388,9 +388,9 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 
 {% if submitted %}
                 {% else %}
-                <form class="form-horizontal" action="{% url 'anketaview'%}" name="form" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" action="{% url 'anketaview' ankita.pk %}" name="form" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form.as_p}}
+<!--                    {{ form.as_p}}-->
                     <input type="hidden" name="is_post" value="1"/>
                     <input type="hidden" name="userid" value=""/>
 
@@ -423,30 +423,54 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
                                         <input type="hidden" id="photo" name="photo" value="469c4cf2cd" /><input type="hidden" name="_wp_http_referer" value="/partnership-add-listing-form/" />                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <input type="text" required  placeholder="Ism"
-                                       class="form-control" id="uz_listing_firstname_name_field" name="name"/>
+                             <div class="col-sm-6">
+                                   <b>Pasport seriyasi</b>
+                                 <p class="form-control">{{ankita.pport_no}}</p>
+<!--                                <input type="text" required-->
+<!--                                       placeholder="Pasport seriyasi"-->
+<!--                                       class="form-control" name="pport_no" value="{{ankita.pport_no}}"/>-->
+                            </div>
+                             <div class="col-sm-6">
+                                   <b>JSHSHIR (PINFL) raqam</b>
+                                 <p class="form-control">{{ankita.pin}}</p>
+<!--                                <input type="text" required-->
+<!--                                       placeholder="JSHSHIR (PINFL) raqami"-->
+<!--                                       class="form-control" name="pin" value="{{ankita.pin}}"/>-->
+                                   <div class="col-sm-6">
+                                        <b>STIR(INN) raqami</b>
+                                <p class="form-control">{{ankita.tin}}</p>
+<!--                                <input type="text" required-->
+<!--                                       placeholder="STIR(INN)"-->
+<!--                                       class="form-control" name="tin" value="{{ankita.tin}}"/>-->
+                            </div>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" required
-                                       placeholder="Familiya"
-                                       class="form-control" name="fname"/>
+                                  <b>Ismi</b>
+                                <p class="form-control">{{ankita.first_name}}</p>
+<!--                                <input type="text" required  -->
+<!--                                       class="form-control" id="uz_listing_firstname_name_field" name="first_name" value=""/>-->
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" required
-                                       placeholder="Otasining ismi"
-                                       class="form-control" name="lname"/>
+                                <b>Familiyasi</b>
+                                 <p class="form-control">{{ankita.mid_name}}</p>
+<!--                                <input type="text" required-->
+<!--                                       placeholder="Familiya"-->
+<!--                                       class="form-control" name="mid_name" value="{{ankita.mid_name}}"/>-->
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" required
-                                       placeholder="Tug&#039;ilgan vaqti va joyi"
-                                       class="form-control" name="koyadress"/>
+                                  <b>Otasini ismi</b>
+                                  <p class="form-control">{{ankita.sur_name}}</p>
+<!--                                <input type="text" required-->
+<!--                                       placeholder="Otasining ismi"-->
+<!--                                       class="form-control" name="sur_name"     value="{{ankita.sur_name}}"/>-->
                             </div>
+
 
                             <div class="col-sm-12 mgt_input">
                                 <label class="control-label">Fuqaroligi</label>
                                 <select  name="state" class="form-control" required>
-                                <option>Tanlang</option>
+
+                                   <option value="">Tanlang</option>
                                     <option value="107">Avg'oniston</option>
                                     <option value="105">Eron</option>
                                     <option value="87">O'zbekiston</option>
@@ -456,44 +480,48 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
                                     <option value="101">Rossiya</option>
                                     <option value="88">Tojikiston</option>
                                     <option value="104">Turkiya</option>
-                                    <option value="102">Turkmaniston</option>                                </select>
+                                    <option value="102">Turkmaniston</option>
+                                </select>
                             </div>
 
+
+
+
+
                             <div class="col-sm-6">
-                                <input type="text" required
-                                       placeholder="Pasport seriyasi"
-                                       class="form-control" name="password"/>
+                                  <b>Doimiy yashash manzili</b>
+                                 <p class="form-control">{{ankita.per_id}}</p>
+<!--                                <input type="text" required-->
+<!--                                       placeholder="Yashash manzili"-->
+<!--                                       class="form-control" name="per_id" value="{{ankita.per_id}}"/>-->
+                            </div>
+                              <div class="col-sm-6">
+                                <input type="number" required
+                                       placeholder="Telefon raqami(Son bilan)"
+                                       class="form-control" name="mob_phone_no" value="{{ankita.mob_phone_no}}"/>
+                            </div>
+                              <div class="col-sm-6">
+                                <input type="email" required
+                                       placeholder="E-pochta (E-mail)"
+                                       class="form-control" name="email" value="{{ankita.email}}"/>
                             </div>
                             <div class="col-sm-6">
                                 <input type="text" required
-                                       placeholder="JSHSHIR (PINFL) raqami"
-                                       class="form-control" name="passwordpnfl"/>
+                                       placeholder="Tug&#039;ilgan vaqti va joyi"
+                                       class="form-control" name="birth_place"/>
                             </div>
-                            <div class="col-sm-6">
+                              <div class="col-sm-6">
                                 <input type="text" required
                                        placeholder="Ma&#039;lumoti (Oliy, O&#039;rta)"
                                        class="form-control" name="malumot"/>
                             </div>
                             <div class="col-sm-6">
                                 <input type="text" required
-                                       placeholder="Yashash manzili"
-                                       class="form-control" name="adress"/>
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" required
                                        placeholder="Faoliyat manzili"
                                        class="form-control" name="workadress"/>
                             </div>
-                            <div class="col-sm-6">
-                                <input type="number" required
-                                       placeholder="Telefon raqami(Son bilan)"
-                                       class="form-control" name="number"/>
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="email" required
-                                       placeholder="E-pochta (E-mail)"
-                                       class="form-control" name="email"/>
-                            </div>
+
+
                             <div class="col-sm-6">
                                 <input type="text" required
                                        placeholder="Web sahifasi"
