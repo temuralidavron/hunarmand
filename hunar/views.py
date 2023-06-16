@@ -54,8 +54,9 @@ class AnketaView(generic.CreateView):
         ankita.modepraduct = form.data['modepraduct']
         ankita.addinform = form.data['addinform']
         ankita.photos = file['photos']
+        ankita.status = True
         ankita.save()
-        return render(request, 'list.html',{'form': form})
+        return redirect('data_item', ankita.pk)
 
 
 
@@ -106,4 +107,17 @@ class InetgerView(generic.CreateView):
             mob_phone_no = '17536717',
         )
         return redirect('anketaview', ankita.pk)
+
+
+class DataItemView(TemplateView):
+    queryset = Anketa.objects.all()
+    template_name = 'data_item.html'
+    form_class = Anketaform
+    def get(self, request, *args, **kwargs):
+        item = Anketa.objects.get(id=self.kwargs['id'])
+        context = {
+            'item': item
+        }
+        return render(request, 'data_item.html', context)
+
 

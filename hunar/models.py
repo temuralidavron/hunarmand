@@ -117,6 +117,7 @@ class Anketa(models.Model):
     like = models.CharField(max_length=123, choices=LIKE, default='none')
     likes = models.ManyToManyField(User, blank=True, null=True, related_name='like_user')
     dislike = models.ManyToManyField(User, blank=True, null=True, related_name='dislike_user')
+    status = models.BooleanField(default=False)
 
 
 
