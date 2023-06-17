@@ -491,6 +491,17 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
                         <div class="simple-page-table-title">
                             {{item.photos.url}}               </div>
                     </div>
+                    <div class="col-md-12 btn-add-listing">
+                        <a href="{% url 'anketaeditview' item.pk %}"><button type="submit" class="btn btn_outline btn_primary btn_center btn_default" >Orqaga</button></a>
+                        <a href="{% url 'homelistiew' item.pk %}"><button type="submit" class="btn btn_outline btn_primary btn_center btn_default">Tasdiqlash</button></a>
+<!--                                <input type="submit" class="btn btn_outline btn_primary btn_center btn_default" value="Orqaga" name="submitpost"/>-->
+                            </div>
+                        </div>
+<!-- <div class="col-md-12 btn-add-listing">-->
+<!--                                <input type="submit" class="btn btn_outline btn_primary btn_center btn_default" value="Tasdiqlash" name="submitpost"/>-->
+<!--                            </div>-->
+                        </div>
+
                     <!--                    <div class="col-sm-6 video-single-page">-->
 <!--                        <div class="top_title">Video:</div>-->
 <!--                        <video width="400" controls>-->

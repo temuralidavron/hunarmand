@@ -16,7 +16,7 @@ from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from django.http import JsonResponse
 from db_client import execute
 
-
+#Jo&#039;natish
 class AnketaView(generic.CreateView):
     template_name = 'anketa.html'
     form_class = Anketaform
@@ -54,7 +54,6 @@ class AnketaView(generic.CreateView):
         ankita.modepraduct = form.data['modepraduct']
         ankita.addinform = form.data['addinform']
         ankita.photos = file['photos']
-        ankita.status = True
         ankita.save()
         return redirect('data_item', ankita.pk)
 
@@ -119,5 +118,136 @@ class DataItemView(TemplateView):
             'item': item
         }
         return render(request, 'data_item.html', context)
+
+
+class AnketaEditView(generic.CreateView):
+    template_name = 'edit.html'
+    form_class = Anketaform
+    queryset = Anketa.objects.all()
+    # success_url = reverse_lazy("anketapostview")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = Anketaform
+        context['ankita'] = Anketa.objects.get(id=self.kwargs['id'])
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = Anketaform(request.POST)
+        file = request.FILES
+        print(file)
+        print(form.data)
+        ankita = Anketa.objects.get(id=self.kwargs['id'])
+        ankita.photo = file['photo']
+        ankita.birth_place = form.data['birth_place']
+        ankita.malumot = form.data['malumot']
+        ankita.workadress = form.data['workadress']
+        ankita.mob_phone_no = form.data['mob_phone_no']
+        ankita.web_chart = form.data['web_chart']
+        ankita.studentcount = form.data['studentcount']
+        ankita.job = form.data['job']
+        ankita.grift = form.data['grift']
+        ankita.memberyear = form.data['memberyear']
+        ankita.award = form.data['award']
+        ankita.festival = form.data['festival']
+        ankita.nationalfest = form.data['nationalfest']
+        ankita.owngalery = form.data['owngalery']
+        ankita.teacherabout = form.data['teacherabout']
+        ankita.orginalwork = form.data['orginalwork']
+        ankita.modepraduct = form.data['modepraduct']
+        ankita.addinform = form.data['addinform']
+        ankita.photos = file['photos']
+        ankita.status = True
+        ankita.save()
+        return redirect('data_item', ankita.pk)
+
+class TasdiqlashEditView(generic.CreateView):
+    template_name = 'edit.html'
+    form_class = Anketaform
+    queryset = Anketa.objects.all()
+    # success_url = reverse_lazy("anketapostview")
+
+    def post(self, request, *args, **kwargs):
+        ankita = Anketa.objects.get(id=self.kwargs['id'])
+        ankita.status = True
+        ankita.save()
+        return redirect('data_item', ankita.pk)
+
+
+class HomeListView(TemplateView):
+    queryset = Anketa.objects.all()
+    template_name = 'home.html'
+    form_class = Anketaform
+
+    def get(self, request, *args, **kwargs):
+        item = Anketa.objects.filter(status=True)
+        context = {
+            'items': item
+        }
+        return render(request, 'home.html', context)
+
+
+class KengashView(generic.CreateView):
+    queryset = Anketa.objects.all()
+    template_name = 'kengash.html'
+    form_class = Anketaform
+
+
+    def get(self, request, *args, **kwargs):
+        ankita = Anketa.objects.all()
+        print(request.GET.get('type'))
+        type = request.GET.get('type')
+        if type == 'confirmation':
+            ankita = Anketa.objects.filter(likes=request.user)
+        else:
+            ankita = Anketa.objects.filter(dislike=request.user, status=True)
+
+
+
+        context = {
+            'anikta': ankita
+        }
+        return render(request, 'kengash.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form =Anketaform(request.POST)
+        user=request.user
+        file = request.FILES
+        anketa = Anketa.objects.create(
+            like = form['like']
+
+        )
+        return redirect('kengash.html', anketa.pk)
+
+class ConfirmView(generic.CreateView):
+    queryset = Anketa.objects.all()
+    template_name = 'confirmation.html'
+    form_class = Anketaform
+
+
+    def get(self, request, *args, **kwargs):
+        like =Anketa.objects.filter(likes=request.user, status=True)
+        context = {
+            'likes':like,
+
+        }
+        return render(request, 'rejection.html', context)
+
+
+
+class RejectionView(generic.CreateView):
+    queryset = Anketa.objects.all()
+    template_name = 'rejection.html'
+    form_class = Anketaform
+
+    def get(self, request, *args, **kwargs):
+        dislike = Anketa.objects.filter(dislike=request.user, status=True)
+        context = {
+
+            'dislikes': dislike,
+        }
+        return render(request, 'kengash.html', context)
+
+
 
 
