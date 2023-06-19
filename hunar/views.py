@@ -192,32 +192,24 @@ class KengashView(generic.CreateView):
     template_name = 'kengash.html'
     form_class = Anketaform
 
-
     def get(self, request, *args, **kwargs):
-        ankita = Anketa.objects.all()
-        print(request.GET.get('type'))
-        type = request.GET.get('type')
-        if type == 'confirmation':
-            ankita = Anketa.objects.filter(likes=request.user)
-        else:
-            ankita = Anketa.objects.filter(dislike=request.user, status=True)
-
-
+        print( Anketa.objects.filter(status=True))
 
         context = {
-            'anikta': ankita
+            'ankita': Anketa.objects.filter(status=True)
         }
         return render(request, 'kengash.html', context)
 
     def post(self, request, *args, **kwargs):
-        form =Anketaform(request.POST)
-        user=request.user
-        file = request.FILES
-        anketa = Anketa.objects.create(
-            like = form['like']
+        ankita = Anketa.objects.get(id=request.GET.get('id'))
+        if request.GET.get('like') == 'yes':
+            ankita.likes.add(User.objects.get(id=request.user.pk))
+            ankita.save()
+        elif request.GET.get('like') == 'no':
+            ankita.dislike.add(User.objects.get(id=request.user.pk))
+            ankita.save()
 
-        )
-        return redirect('kengash.html', anketa.pk)
+        return redirect('kengashview')
 
 class ConfirmView(generic.CreateView):
     queryset = Anketa.objects.all()
@@ -228,10 +220,16 @@ class ConfirmView(generic.CreateView):
     def get(self, request, *args, **kwargs):
         like =Anketa.objects.filter(likes=request.user, status=True)
         context = {
-            'likes':like,
+            'likes': like,
 
         }
-        return render(request, 'rejection.html', context)
+        return render(request, 'confirmation.html', context)
+
+    def post(self, request, *args, **kwargs):
+        ankita = Anketa.objects.get(id=request.GET.get('id'))
+        ankita.likes.add(User.objects.get(id=request.user.pk))
+        ankita.save()
+        return redirect('kengashview')
 
 
 
@@ -242,11 +240,23 @@ class RejectionView(generic.CreateView):
 
     def get(self, request, *args, **kwargs):
         dislike = Anketa.objects.filter(dislike=request.user, status=True)
+        print(dislike)
         context = {
 
             'dislikes': dislike,
         }
-        return render(request, 'kengash.html', context)
+        return render(request, 'rejection.html', context)
+
+    def post(self, request, *args, **kwargs):
+        ankita = Anketa.objects.get(id=request.GET.get('id'))
+        ankita.dislike.add(User.objects.get(id=request.user.pk))
+        ankita.save()
+
+        return redirect('kengashview')
+
+
+
+
 
 
 

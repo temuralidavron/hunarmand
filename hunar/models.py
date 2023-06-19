@@ -150,8 +150,3 @@ class MarkAnketa(models.Model):
 
 
 
-
-
-
-
-

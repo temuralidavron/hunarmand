@@ -375,19 +375,18 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
            <div class="panel with-nav-tabs panel-success">
               <div class="panel-heading">
                  <ul class="nav nav-tabs">
-                    <li class="active">
-                      <a href="#pending_requests_tab" data-toggle="tab">
+                    <li>
+                       <a href="{% url 'kengashview' %}">
                           Kelgan arizalar<!--                        <span class="added-requests">--><!--</span>-->
                       </a>
                     </li>
                     <li>
-                      <a href="#approved_requests_tab" data-toggle="tab">
+                      <a href="{% url 'confirmview' %}">
                           Tasdiqlandi<!--                         <span class="added-requests">--><!--</span>-->
                       </a>
                     </li>
                     <li>
-                      <a href="#rejected_requests_tab" data-toggle="tab">
-
+                      <a href="{% url 'rejectionview' %}">
                           Inkor Etildi<!--                         <span class="added-requests">--><!--</span>-->
                       </a>
                     </li>
@@ -413,20 +412,21 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
                                         </th>
 <!--                                        <th scope="col">--><!--</th>-->
                                         <th scope="col">Yes</th>
-                                        <th scope="col">No</th>
+<!--                                        <th scope="col">No</th>-->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for item in ankita %}
+                                {% for item in dislikes %}
                                     <tr>
                                       <th scope="row">{{item.id}}</th>
-                                      <th class="approve-listing-table-profile-image"><img width="1232" height="1848" src="https://handicraftman.uz/wp-content/uploads/2023/01/11.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" srcset="https://handicraftman.uz/wp-content/uploads/2023/01/11.jpg 1232w, https://handicraftman.uz/wp-content/uploads/2023/01/11-200x300.jpg 200w, https://handicraftman.uz/wp-content/uploads/2023/01/11-683x1024.jpg 683w, https://handicraftman.uz/wp-content/uploads/2023/01/11-768x1152.jpg 768w, https://handicraftman.uz/wp-content/uploads/2023/01/11-1024x1536.jpg 1024w" sizes="(max-width: 1232px) 100vw, 1232px" /></th>
+                                      <th class="approve-listing-table-profile-image"><img width="1232" height="1848" src="{{ item.photo.url }}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" srcset="{{item.photo.url}} 1232w, {{item.photo.url}} 200w, {{item.photo.url}} 683w, {{item.photo.url}} 768w,{{item.photo.url}} 1024w" sizes="(max-width: 1232px) 100vw, 1232px" /></th>
                                       <td><a href="https://handicraftman.uz/custom-single-uz-listing-page?current_post_id=38705" target="_blank">{{item.mid_name}} {{item.first_name}} {{item.sur_name}}</a></td>
                                       <td>{{ item.job}}                                                  </td>
                                       <td>0</td>
                                       <td>0</td>
                                       <td>
-                                        <form method="post">
+                                        <form method="post" action="{% url 'kengashview' %}?id={{item.id}}">
+                                             {% csrf_token %}
                                             <input type="hidden" name="postID"
                                                 value="38705" />
                                             <button type="submit" class="button approve-btn"
@@ -435,16 +435,9 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
                                         </form>
                                       </td>
 
-                                      <td>
-                                        <form method="post">
-                                            <input type="hidden" name="postID"
-                                                value="{{item.id}}" />
-                                            <button type="submit" class="button rejection-request"
-                                                name="rejection-request"><i class="fa fa-times-circle"></i></button>
-                                        </form>
-                                      </td>
+
                                     </tr>
-                                {%endfor%}
+                                {% endfor %}
                                  </tbody>
                 </table>
 
